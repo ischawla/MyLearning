@@ -1,0 +1,33 @@
+package com.isc;
+
+import java.net.ServerSocket;
+
+import org.omg.CORBA.portable.InputStream;
+
+public class SocketServerNew {
+
+
+    public static void main(String[]) {
+        Server socket = null;
+        try {
+            ServerSocket serversocket = new ServerSocket(9999);
+            System.out.println("Server started...");
+            socket = serversocket.accept();
+
+            InputStream input = socket.getInputStream();
+            byte[] b = new byte[1024];
+            int num = input.read(b);
+            String msg = new String(b, 0, num);
+            System.out.println("Client says:" + num);
+
+            OutputStream out = socket.getOutputStream();
+            String res = "Server Echo:" + msg;
+            out.write(res.getBytes());
+        } finally {
+            socket.close()
+        }
+
+    }
+
+
+}
